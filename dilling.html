@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transport Bill</title>
+    <link rel="stylesheet" href="./bill.css" />
+  </head>
+  <body>
+    <div id="billPages"></div>
+
+    <script>
+      const billData = {
+          to: "ABC TEXTILES PVT LTD\nChennai - 600001",
+          no: "SPAT/INV/001",
+          date: "25/12/2024",
+          paymentTerms: "Net 30 Days",
+          vehicleNo: "TN 37 AB 1234",
+          period: "01/12/2024 to 31/12/2024",
+          details: [
+      {
+        "date": "01/12/2024",
+        "from": "Chennai",
+        "to": "Coimbatore",
+        "trip": "1",
+        "dec": "Steel Bars",
+        "amount": 5000
+      },
+      {
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "Textile Materials",
+        "amount": 3500
+      },
+      {
+        "date": "03/12/2024",
+        "from": "Tiruppur",
+        "to": "jbai",
+        "trip": "1",
+        "dec": "Cotton Fabrics",
+        "amount": 4200
+      },
+      {
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "Textile Materials",
+        "amount": 3500
+      },
+      {
+        "date": "03/12/2024",
+        "from": "Tiruppur",
+        "to": "jbai",
+        "trip": "1",
+        "dec": "Cotton Fabrics",
+        "amount": 4200
+      },
+      {
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "Textile Materials",
+        "amount": 3500
+      },
+      {
+        "date": "03/12/2024",
+        "from": "Tiruppur",
+        "to": "bai",
+        "trip": "1",
+        "dec": "Cotton Fabrics",
+        "amount": 4200
+      },
+      {
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "Textile Materials",
+        "amount": 3500
+      },
+      {
+        "date": "03/12/2024",
+        "from": "Tiruppur",
+        "to": "ai",
+        "trip": "1",
+        "dec": "Cotton Fabrics",
+        "amount": 4200.9
+      },
+      {
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Chenkj",
+        "trip": "2",
+        "dec": "Textile n",
+        "amount": 3500
+      },
+      {
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "Textile n",
+        "amount": 3500
+      },
+      {
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": "Tiruppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": ",kb,nmbknppur",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      },{
+        "date": "02/12/2024",
+        "from": "Coimbatore",
+        "to": ",kb,hgsfdkusgadkas,hjgdvjakjsgdvjgq,msadvhmasvdghjhmgavsngdhmgxvgasgdhmvhswafv",
+        "trip": "2",
+        "dec": "d",
+        "amount": 3500
+      }
+    ]
+        };
+
+      function numberToWords(num) {
+        const ones = [
+          "",
+          "One",
+          "Two",
+          "Three",
+          "Four",
+          "Five",
+          "Six",
+          "Seven",
+          "Eight",
+          "Nine",
+        ];
+        const tens = [
+          "",
+          "",
+          "Twenty",
+          "Thirty",
+          "Forty",
+          "Fifty",
+          "Sixty",
+          "Seventy",
+          "Eighty",
+          "Ninety",
+        ];
+        const teens = [
+          "Ten",
+          "Eleven",
+          "Twelve",
+          "Thirteen",
+          "Fourteen",
+          "Fifteen",
+          "Sixteen",
+          "Seventeen",
+          "Eighteen",
+          "Nineteen",
+        ];
+
+        if (num === 0) return "Zero Rupees Only";
+
+        // Round to 2 decimal places to avoid floating point issues
+        num = Math.round(num * 100) / 100;
+        const integerPart = Math.floor(num);
+
+        let words = "";
+
+        if (integerPart >= 10000000) {
+          words +=
+            numberToWords(Math.floor(integerPart / 10000000)) + " Crore ";
+          num = integerPart % 10000000;
+        } else {
+          num = integerPart;
+        }
+
+        if (num >= 100000) {
+          const lakhPart = Math.floor(num / 100000);
+          words +=
+            ones[lakhPart] ||
+            tens[Math.floor(lakhPart / 10)] + " " + ones[lakhPart % 10];
+          words += " Lakh ";
+          num %= 100000;
+        }
+
+        if (num >= 1000) {
+          const thousandPart = Math.floor(num / 1000);
+          if (thousandPart >= 10 && thousandPart < 20) {
+            words += teens[thousandPart - 10] + " ";
+          } else {
+            words +=
+              tens[Math.floor(thousandPart / 10)] +
+              " " +
+              ones[thousandPart % 10] +
+              " ";
+          }
+          words += "Thousand ";
+          num %= 1000;
+        }
+
+        if (num >= 100) {
+          words += ones[Math.floor(num / 100)] + " Hundred ";
+          num %= 100;
+        }
+
+        if (num >= 20) {
+          words += tens[Math.floor(num / 10)] + " ";
+          num %= 10;
+        }
+
+        if (num >= 10) {
+          words += teens[num - 10] + " ";
+          num = 0;
+        }
+
+        if (num > 0) {
+          words += ones[num] + " ";
+        }
+
+        return words.trim().replace(/\s+/g, " ") + " Rupees Only";
+      }
+
+      // Estimate row height based on content
+      function estimateRowHeight(item) {
+        // Base row height with padding
+        const baseHeight = 22;
+
+        // Calculate how many lines each column will take
+        const fromCharsPerLine = 16;
+        const fromLines = Math.ceil(item.from.length / fromCharsPerLine);
+
+        const toCharsPerLine = 16;
+        const toLines = Math.ceil(item.to.length / toCharsPerLine);
+
+        const decCharsPerLine = 33;
+        const decLines = Math.ceil(item.dec.length / decCharsPerLine);
+
+        // The row height is determined by the tallest cell
+        const maxLines = Math.max(fromLines, toLines, decLines, 1);
+
+        // Each additional line adds ~15px
+        return baseHeight + (maxLines - 1) * 15;
+      }
+
+      function createHeader(isFirstPage) {
+        return `
+                <div class="header">
+                    <p style="text-align: right; font-size: 10px; margin-bottom: 10px;">({{copy}})</p>
+                    <h1 style="color: rgb(122, 184, 122);">{{company.name}}</h1>
+                    <p>{{company.address}}</p>
+                </div>
+
+                <div class="company-details">
+                    <div>
+                        <p><strong>State Name:</strong> {{company.state}}</p>
+                        <p><strong>Code:</strong> {{company.code}}</p>
+                        <p><strong>GSTIN:</strong> {{company.gstin}}</p>
+                    </div>
+                    <div>
+                        <p><strong>Email:</strong> {{company.email}}</p>
+                        <p><strong>Contact Person:</strong> {{company.contactName}}</p>
+                        <p><strong>Mobile:</strong> {{company.contactNumber}}</p>
+                    </div>
+                </div>
+
+                ${
+                  isFirstPage
+                    ? `
+                <div class="bill-info">
+                    <div>
+                        <p><strong>Bill to:</strong></p>
+                        <p>{{bill.to}}</p>
+                    </div>
+                    <div>
+                        <p><label>Bill No:</label> <span>{{bill.no}}</span></p>
+                        <p><label>Date:</label> <span>{{bill.date}}</span></p>
+                        <p><label>Payment terms:</label> <span>{{bill.paymentTerms}}</span></p>
+                        <p><label>Vehicle No:</label> <span>{{bill.vehicleNo}}</span></p>
+                        <p><label>Period:</label> <span>{{bill.period}}</span></p>
+                    </div>
+                </div>
+                `
+                    : ""
+                }
+            `;
+      }
+
+        function createTableHeader() {
+        return `
+            <table>
+            <colgroup>
+                <col style="width: 6%;">
+                <col style="width: 10%;">
+                <col style="width: 21%;">
+                <col style="width: 21%;">
+                <col style="width: 7%;">
+                <col style="width: 20%;">
+                <col style="width: 15%;">
+            </colgroup>
+            <thead>
+                <tr>
+                <th rowspan="2">S.No</th>
+                <th rowspan="2">Date</th>
+                <th colspan="2">Goods Dispatch Location</th>
+                <th rowspan="2">Trips</th>
+                <th rowspan="2">Description of Goods</th>
+                <th rowspan="2">Amount</th>
+                </tr>
+                <tr>
+                <th>From</th>
+                <th>To</th>
+                </tr>
+            </thead>
+            <tbody>
+        `;
+        }
+
+
+      function createFooter(total) {
+        return `
+                </tbody>
+                </table>
+
+                <div class="bill-footer">
+                    <div class="amount-total-row">
+                        <div class="amount-words">
+                            <strong>Chargeable Amount in Words :</strong>
+                            <span>${numberToWords(total)}</span>
+                        </div>
+                        <div class="total-label">TOTAL</div>
+                        <div class="total-value">₹ ${total.toFixed(2)}</div>
+                    </div>
+
+                    <div class="bank-details">
+                        <h3>Bank Details</h3>
+                        <p><strong>Bank Name:</strong> {{company.bank.name}}</p>
+                        <p><strong>Acc No:</strong> {{company.bank.accNo}}</p>
+                        <p><strong>IFSC Code:</strong> {{company.bank.ifsc}}</p>
+                    </div>
+
+                    <div class="footer">
+                        <p>For {{company.name}}</p>
+                        <p style="margin-top: 50px;"><strong>AUTHORISED SIGNATORY</strong></p>
+                    </div>
+
+                    <div class="slogan">
+                        <p>{{company.slogun}}</p>
+                    </div>
+                </div>
+            `;
+      }
+        function generatePages() {
+        const container = document.getElementById("billPages");
+        const details = billData.details; // ✅ FIXED
+        const total = details.reduce((sum, item) => sum + item.amount, 0);
+
+
+        // Fixed heights in pixels (A4 at 96 DPI)
+        const PAGE_HEIGHT = 1000;
+        const HEADER_HEIGHT = 170;
+        const BILL_INFO_HEIGHT = 90;
+        const TABLE_HEADER_HEIGHT = 30;
+        const FOOTER_HEIGHT = 250; // Reduced - just enough for complete footer
+        const CONTINUATION_HEIGHT = 30;
+
+        let currentIndex = 0;
+        let pageNumber = 1;
+
+        while (currentIndex < details.length) {
+          const isFirstPage = pageNumber === 1;
+
+          // Calculate available height for table rows
+          let availableHeight =
+            PAGE_HEIGHT - HEADER_HEIGHT - TABLE_HEADER_HEIGHT;
+          if (isFirstPage) {
+            availableHeight -= BILL_INFO_HEIGHT;
+          }
+
+          let pageRows = [];
+          let accumulatedHeight = 0;
+          let tempIndex = currentIndex;
+
+          // First, add all remaining rows and see if they fit with footer
+          while (tempIndex < details.length) {
+            const rowHeight = estimateRowHeight(details[tempIndex]);
+            pageRows.push(details[tempIndex]);
+            accumulatedHeight += rowHeight;
+            tempIndex++;
+          }
+
+          // Now check if all rows + footer fit on this page
+          const isLastPage = tempIndex >= details.length;
+          const spaceNeeded = isLastPage ? FOOTER_HEIGHT : CONTINUATION_HEIGHT;
+
+          // If it doesn't fit, remove rows from the end until it does
+          while (
+            accumulatedHeight + spaceNeeded > availableHeight &&
+            pageRows.length > 1
+          ) {
+            const removedRow = pageRows.pop();
+            tempIndex--;
+            accumulatedHeight -= estimateRowHeight(removedRow);
+          }
+
+          // Update current index
+          currentIndex = tempIndex;
+
+          // Create the page
+          const page = document.createElement("div");
+          page.className = "bill-container";
+          page.innerHTML = createHeader(isFirstPage) + createTableHeader();
+
+          const tbody = page.querySelector("tbody");
+          const startIndex = currentIndex - pageRows.length;
+
+          pageRows.forEach((item, idx) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                        <td>${startIndex + idx + 1}</td>
+                        <td>${item.date}</td>
+                        <td>${item.from}</td>
+                        <td>${item.to}</td>
+                        <td>${item.trip}</td>
+                        <td>${item.dec}</td>
+                        <td>${item.amount.toFixed(2)}</td>
+                    `;
+            tbody.appendChild(row);
+          });
+
+          const isThisLastPage = currentIndex >= details.length;
+
+          if (isThisLastPage) {
+            page.innerHTML += createFooter(total);
+          } else {
+            page
+              .querySelector("tbody")
+              .insertAdjacentHTML("afterend", "</tbody></table>");
+            page.insertAdjacentHTML(
+              "beforeend",
+              `<div class="page-indicator">(Continued...)</div>`
+            );
+          }
+
+          container.appendChild(page);
+          pageNumber++;
+        }
+      }
+
+      window.addEventListener("load", () => {
+        setTimeout(generatePages, 100);
+      });
+    </script>
+  </body>
+</html>

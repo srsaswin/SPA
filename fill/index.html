@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transport Bill Entry</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #fff4e6 0%, #ffe8cc 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(244, 130, 32, 0.15);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, #f48220 0%, #d97419 100%);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.header p {
+  opacity: 0.95;
+  font-size: 14px;
+}
+
+.form-content {
+  padding: 40px;
+}
+
+.section {
+  margin-bottom: 35px;
+}
+
+.section-title {
+  color: #f48220;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ffe8cc;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: #f48220;
+  border-radius: 2px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+input, textarea {
+  padding: 10px 14px;
+  border: 2px solid #ffe8cc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #f48220;
+  box-shadow: 0 0 0 3px rgba(244, 130, 32, 0.1);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-top: 15px;
+  border: 2px solid #ffe8cc;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: linear-gradient(135deg, #f4822050 0%, #d9741950 100%);
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #ffe8cc;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ffe8cc;
+}
+
+td input {
+  border: 1px solid #e0e0e0;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-add {
+  background: #fff;
+  color: #f48220;
+  border: 2px solid #f48220;
+  margin-top: 15px;
+}
+
+.btn-add:hover {
+  background: #f48220;
+  color: white;
+}
+
+.btn-remove {
+  background: #ff6b6b;
+  color: white;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.btn-remove:hover {
+  background: #ff5252;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #f48220 0%, #d97419 100%);
+  color: white;
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  margin-top: 30px;
+  box-shadow: 0 4px 16px rgba(244, 130, 32, 0.3);
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 130, 32, 0.4);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .form-content {
+    padding: 20px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+  }
+  
+  /* Mobile-friendly trip details */
+  .table-container {
+    border: none;
+  }
+  
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  thead tr {
+    display: none;
+  }
+  
+  tr {
+    margin-bottom: 20px;
+    border: 2px solid #ffe8cc;
+    border-radius: 8px;
+    padding: 15px;
+    background: #fff;
+  }
+  
+  td {
+    border: none;
+    padding: 8px 0;
+    position: relative;
+    padding-left: 50%;
+  }
+  
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-right: 10px;
+    font-weight: 600;
+    color: #f48220;
+    font-size: 12px;
+  }
+  
+  td input {
+    width: 100%;
+  }
+  
+  td:last-child {
+    padding-left: 0;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  td:last-child::before {
+    display: none;
+  }
+  
+  .btn-remove {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>🚚 Transport Bill Entry</h1>
+    <p>Create professional transport bills with ease</p>
+  </div>
+
+  <div class="form-content">
+    <!-- COMPANY -->
+    <div class="section">
+      <div class="section-title">Company Details</div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Company Name</label>
+          <input id="companyName" value="SRI PALANI ANDAVAR TRANSPORT">
+        </div>
+        <div class="form-group full-width">
+          <label>Address</label>
+          <textarea id="companyAddress">6/260 Karayapalayam, Sembiyanallur (PO), Avinashi, Tiruppur - 641654</textarea>
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <input id="companyState" value="Tamil Nadu">
+        </div>
+        <div class="form-group">
+          <label>State Code</label>
+          <input id="companyCode" value="33">
+        </div>
+        <div class="form-group">
+          <label>GSTIN</label>
+          <input id="companyGstin" value="33ABCDE1234F1Z5">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input id="companyEmail" value="sptransport@gmail.com">
+        </div>
+        <div class="form-group">
+          <label>Contact Name</label>
+          <input id="companyContactName" value="Mr. Palanisamy">
+        </div>
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input id="companyContactNumber" value="9876543210">
+        </div>
+        <div class="form-group full-width">
+          <label>Slogan</label>
+          <input id="companySlogan" value="Delivering Your Goods with Precision and Care">
+        </div>
+      </div>
+    </div>
+
+    <!-- BANK -->
+    <div class="section">
+      <div class="section-title">Bank Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Bank Name</label>
+          <input id="bankName">
+        </div>
+        <div class="form-group">
+          <label>Account Number</label>
+          <input id="bankAcc">
+        </div>
+        <div class="form-group">
+          <label>IFSC Code</label>
+          <input id="bankIfsc">
+        </div>
+      </div>
+    </div>
+
+    <!-- BILL -->
+    <div class="section">
+      <div class="section-title">Bill Details</div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Bill To</label>
+          <textarea id="billTo"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Bill Number</label>
+          <input id="billNo">
+        </div>
+        <div class="form-group">
+          <label>Bill Date</label>
+          <input id="billDate" type="date">
+        </div>
+        <div class="form-group">
+          <label>Payment Terms</label>
+          <input id="paymentTerms">
+        </div>
+        <div class="form-group">
+          <label>Vehicle Number</label>
+          <input id="vehicleNo">
+        </div>
+        <div class="form-group">
+          <label>Period</label>
+          <input id="period">
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="section">
+      <div class="section-title">Trip Details</div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Trip</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="detailsBody"></tbody>
+        </table>
+      </div>
+      <button class="btn btn-add" onclick="addRow()">+ Add Trip</button>
+    </div>
+
+    <button class="btn btn-submit" onclick="submitBill()">🎯 Generate & Download PDF</button>
+  </div>
+</div>
+
+<script>
+// Add initial row on load
+window.onload = function() {
+  addRow();
+};
+
+function addRow() {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td data-label="Date"><input type="date"></td>
+    <td data-label="From"><input placeholder="Origin"></td>
+    <td data-label="To"><input placeholder="Destination"></td>
+    <td data-label="Trip"><input placeholder="Trip No"></td>
+    <td data-label="Description"><input placeholder="Description"></td>
+    <td data-label="Amount"><input type="number" placeholder="0.00"></td>
+    <td><button class="btn btn-remove" onclick="this.closest('tr').remove()">✕ Remove</button></td>
+  `;
+  document.getElementById("detailsBody").appendChild(row);
+}
+
+async function submitBill() {
+  const details = [];
+
+  document.querySelectorAll("#detailsBody tr").forEach(r => {
+    const c = r.querySelectorAll("input");
+    details.push({
+      date: c[0].value,
+      from: c[1].value,
+      to: c[2].value,
+      trip: c[3].value,
+      dec: c[4].value,
+      amount: Number(c[5].value)
+    });
+  });
+
+  const payload = {
+    "template-data": {
+      copy: "Original",
+      company: {
+        name: companyName.value,
+        address: companyAddress.value,
+        state: companyState.value,
+        code: companyCode.value,
+        gstin: companyGstin.value,
+        email: companyEmail.value,
+        contactName: companyContactName.value,
+        contactNumber: companyContactNumber.value,
+        slogun: companySlogan.value,
+        bank: {
+          name: bankName.value,
+          accNo: bankAcc.value,
+          ifsc: bankIfsc.value
+        }
+      },
+      bill: {
+        to: billTo.value,
+        no: billNo.value,
+        date: billDate.value,
+        paymentTerms: paymentTerms.value,
+        vehicleNo: vehicleNo.value,
+        period: period.value,
+        details
+      }
+    }
+  };
+
+  try {
+    const res = await fetch(
+      "https://demosmartbrowz-50037242653.development.catalystappsail.in/pdf",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }
+    );
+
+    if (!res.ok) throw new Error("PDF failed");
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Transport_Bill.pdf";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  } catch (e) {
+    alert("Error generating PDF. Please try again.");
+    console.error(e);
+  }
+}
+</script>
+
+</body>
+</html>

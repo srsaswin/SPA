@@ -1,0 +1,19 @@
+Timing to complete init function0.023 s
+CliLocation :/usr/local/lib/node_modules/@slyte/cli
+ CliVersion 1.0.5
+Building components ....
+mappingList {"welcome-comp":"/Users/saswin-nts0074/Documents/study-1/SPA/client/components/javascript/welcome-comp.js"}
+Searching for syntax errors.....
+Finding the unclosed tags compilation over
+[Time] => find unclosedTags => 0.014 s
+Running compilerule ...
+[Time] => Convert Lyte syntax => 0 s
+Time to end the dynamic nodes0.028 s
+Generating dist components...
+
+Time to end processing template0 s
+Building mixins .....
+LiveServer running in 58559
+Total Building Time : 4.087 s
+Building completed
+Minified Count : 0

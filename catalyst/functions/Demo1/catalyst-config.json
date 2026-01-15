@@ -1,0 +1,11 @@
+{
+	"deployment": {
+		"name": "Demo1",
+		"stack": "java17",
+		"type": "advancedio",
+		"env_variables": {}
+	},
+	"execution": {
+		"main": "PdfGenerator"
+	}
+}

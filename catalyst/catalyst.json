@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "targets": [
+      "Demo1"
+    ],
+    "ignore": [
+      ".output"
+    ],
+    "source": "functions"
+  },
+  "appsail": [
+    {
+      "source": "appsail-java",
+      "name": "DemoAppShell"
+    }
+  ]
+}

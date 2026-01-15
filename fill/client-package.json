@@ -1,0 +1,7 @@
+{
+"name":"mail am",
+"version":"0.0.2",
+"homepage":"index.html",
+"login_redirect":"index.html",
+"404":"custom404.html"
+}
