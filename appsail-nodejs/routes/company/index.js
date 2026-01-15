@@ -1,18 +1,17 @@
-import express from "express";
-import catalyst from "zcatalyst-sdk-node"; 
+import expreee from "express";
+import catalyst from "zcatalyst-sdk-node";
 import AppError from "../../error/error.js";
 import commonUtil from "../../utils/common.js";
 
-const router = express.Router();
+const router = expreee.Router();
 
-router.use(express.json());
+router.use(expreee.json());
 
 const routerData = {
-  table:"trip"
+    table:"companys"
 }
 
-
-router.all("*", (req, res, next) => {
+router.all("*", (req,res,next) => {
   try{
     req.catalystApp = catalyst.initialize(req);
     req.table = req.catalystApp.datastore().table(routerData.table);
@@ -22,8 +21,6 @@ router.all("*", (req, res, next) => {
     return
   } 
 });
-
-
 
 router.get("/", async (req, res) => {
     const query = commonUtil.constructGetQueary(req.query,routerData.table);
@@ -45,8 +42,6 @@ router.delete("/" ,async(req,res) => {
   let result = await req.table.deleteRow(req.query['id']);
   res.status(200).send(JSON.stringify(result));
 });
-
-
 
 
 export default router;

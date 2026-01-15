@@ -1,9 +1,13 @@
 import Express from "express";
 import catalyst from "zcatalyst-sdk-node";
 import trip from "./routes/trip/index.js"
+import company from "./routes/company/index.js"
+
 const app = Express();
 const port = process.env.X_ZOHO_CATALYST_LISTEN_PORT || 9000;
- 
+
+app.use('/trip',trip);
+app.use('/company',company);
 
 app.use(Express.json());
 
@@ -38,7 +42,6 @@ app.post("/pdf", async (req, response) => {
     console.log(error);
   }
 });
-app.use('/trip',trip);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
