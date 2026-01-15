@@ -281,7 +281,6 @@ td input {
 </head>
 
 <body>
-
 <div class="container">
   <div class="header">
     <h1>🚚 Transport Bill Entry</h1>
@@ -347,6 +346,10 @@ td input {
         <div class="form-group">
           <label>IFSC Code</label>
           <input id="bankIfsc">
+        </div>
+        <div class="form-group">
+          <label>acc Holder</label>
+          <input id="bankPersion">
         </div>
       </div>
     </div>
@@ -459,7 +462,8 @@ async function submitBill() {
         bank: {
           name: bankName.value,
           accNo: bankAcc.value,
-          ifsc: bankIfsc.value
+          ifsc: bankIfsc.value,
+          person: bankPersion.value
         }
       },
       bill: {
