@@ -9,6 +9,7 @@ router.use(express.json());
 router.all("*", (req, res, next) => {
   try{
     req.catalystApp = catalyst.initialize(req);
+    req.table = req.catalystApp.datastore().table('trip');
     next();
   }catch{
     new AppError("no Catalyst App ",404,res).send();
@@ -19,26 +20,35 @@ router.all("*", (req, res, next) => {
 
 
 router.get("/", async (req, res) => {
-    const query = constructGetQueary(req.query);
-    let result = await datastore.executeZCQLQuery(query); 
+    const query = constructGetQueary(req.query); 
+    let result = await req.catalystApp.zcql().executeZCQLQuery(query); 
     res.status(200).send(JSON.stringify(result)); 
 });
 
-router.put("/" , async(req,res) => {
-  
+router.put("/" , async(req,res) => { 
+  let result = await req.table.updateRow(req.body.data);
+  res.status(200).send(JSON.stringify(result)); 
 });
 
+router.post("/" , async(req,res) => {
+  let result = await req.table.insertRows(req.body.data);
+  res.status(200).send(JSON.stringify(result));
+});
+
+router.delete("/" ,async(req,res) => {
+  let result = await req.table.deleteRow(req.query['id']);
+  res.status(200).send(JSON.stringify(result));
+});
 
 function constructGetQueary(query){
-  const compony = query['compony'];
+  const company = query['company'];
   const id = query['id'];
   const search = query['search']; 
   const limit = query['limit'];
-  const datastore = req.catalystApp.zcql();
   const conditions = [];
   if (id) conditions.push(`ROWID = '${id}'`);
-  if (compony) conditions.push(`compony = '${compony}'`);
-  if (search) conditions.push(`name LIKE '%${search}%'`);
+  if (company) conditions.push(`company_id = '${company}'`);
+  if (search) conditions.push(`company_name = '%${search}%'`);
   let q = "SELECT * FROM trip";
   if (conditions.length) {
     q += " WHERE " + conditions.join(" AND ");
